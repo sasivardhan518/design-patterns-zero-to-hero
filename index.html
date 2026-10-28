@@ -1,0 +1,2074 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="description" content="A practical, visual guide to understanding and applying the 23 Gang of Four design patterns.">
+  <title>Design Patterns: Zero to Hero</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#guide-content">Skip to the guide</a>
+  <div class="reading-progress" aria-hidden="true"><span id="reading-progress-bar"></span></div>
+  <div class="site-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Guide navigation">
+      <a class="brand" href="#" aria-label="Design Patterns Zero to Hero home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M8 11h10v8H8zM22 21h10v8H22z" stroke="currentColor" stroke-width="2"/>
+            <path d="M18 15h4a4 4 0 0 1 4 4v2M22 25h-4a4 4 0 0 1-4-4v-2" stroke="currentColor" stroke-width="2"/>
+            <circle cx="13" cy="15" r="1.5" fill="currentColor"/>
+            <circle cx="27" cy="25" r="1.5" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="brand-copy"><strong>Pattern Atlas</strong><small>SOFTWARE DESIGN / FIELD NOTES</small></span>
+      </a>
+      <button class="icon-button drawer-close" id="drawer-close" type="button" aria-label="Close chapter navigation">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+
+      <div class="sidebar-intro">
+        <span class="eyebrow"><span class="status-pulse"></span>WORKSPACE / GUIDE</span>
+        <p>Understand the problem.<br>Design the solution.</p>
+      </div>
+
+      <label class="search-box" for="chapter-search">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg>
+        <input id="chapter-search" type="search" placeholder="Find a chapter or pattern" autocomplete="off">
+        <kbd>/</kbd>
+      </label>
+      <p class="search-status" id="search-status" aria-live="polite"></p>
+
+      <nav class="chapter-nav" aria-label="Chapters">
+        <div id="chapter-links"></div>
+        <p class="empty-search" id="empty-search" hidden>No matching chapters. Try another term.</p>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-note">
+          <span class="note-icon" aria-hidden="true">✦</span>
+          <p>Patterns are tools, not targets.<br><strong>Clarity beats cleverness.</strong></p>
+        </div>
+      </div>
+    </aside>
+
+    <div class="mobile-scrim" id="mobile-scrim"></div>
+
+    <main class="main-column">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menu-button" aria-label="Open chapter navigation" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div class="breadcrumbs"><span>pattern-atlas</span><span class="breadcrumb-slash">/</span><strong>design-patterns</strong><span class="breadcrumb-branch">main</span></div>
+        <div class="topbar-actions">
+          <span class="reading-label" id="reading-label">OVERVIEW</span>
+          <button class="icon-button theme-button" id="theme-button" aria-label="Switch to dark theme" title="Toggle color theme">
+            <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.1A8.5 8.5 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="hero-kicker"><span class="hero-prompt" aria-hidden="true">&gt;</span> DEVELOPER FIELD GUIDE <span class="hero-version">v1.0</span></div>
+          <h1 id="hero-title">Design Patterns<br><span>from first principles.</span></h1>
+          <p class="hero-subtitle">A visual guide to understanding, implementing, and applying software design patterns.</p>
+          <div class="hero-meta">
+            <span class="meta-avatar" aria-hidden="true">DP</span>
+            <span>23 GoF patterns</span><i></i><span>TypeScript examples</span>
+          </div>
+          <div class="hero-actions">
+            <a class="primary-button" href="#1-what-design-patterns-are"><span aria-hidden="true">$</span> start --foundations</a>
+            <a class="text-button" href="#chapter-links">browse chapters <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Illustration of connected design building blocks">
+          <div class="art-orbit orbit-one"></div>
+          <div class="art-orbit orbit-two"></div>
+          <div class="art-line art-line-one"></div>
+          <div class="art-line art-line-two"></div>
+          <div class="art-node node-main"><span>DESIGN</span><strong>Intent</strong></div>
+          <div class="art-node node-small node-top"><span>01</span><strong>Problem</strong></div>
+          <div class="art-node node-small node-right"><span>02</span><strong>Pattern</strong></div>
+          <div class="art-node node-small node-bottom"><span>03</span><strong>Trade-offs</strong></div>
+          <div class="art-dot dot-one"></div><div class="art-dot dot-two"></div><div class="art-dot dot-three"></div>
+          <span class="art-caption">A pattern is a conversation<br>about a recurring problem.</span>
+        </div>
+        <div class="hero-stats" aria-label="Guide contents">
+          <div><strong>23</strong><span>GoF patterns</span></div>
+          <div><strong>30<span class="stat-plus">+</span></strong><span>Visual diagrams</span></div>
+          <div><strong>6</strong><span>Weeks to mastery</span></div>
+          <div class="stat-note">From first principles<br>to real-world judgment</div>
+        </div>
+      </section>
+
+      <section class="quick-start" aria-label="Quick start">
+        <div class="quick-heading"><span class="section-index">START HERE</span><h2>Choose your next step</h2></div>
+        <a class="quick-card" href="#1-what-design-patterns-are">
+          <span class="quick-icon icon-foundation" aria-hidden="true">01</span>
+          <span><strong>Build the foundation</strong><small>Learn the principles before the patterns.</small></span>
+          <span class="quick-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="quick-card" href="#25-strategy">
+          <span class="quick-icon icon-pattern" aria-hidden="true">02</span>
+          <span><strong>Explore a pattern</strong><small>Start with Strategy and follow the trade-offs.</small></span>
+          <span class="quick-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="quick-card" href="#34-pattern-recognition">
+          <span class="quick-icon icon-practice" aria-hidden="true">03</span>
+          <span><strong>Practice recognition</strong><small>Turn real design friction into options.</small></span>
+          <span class="quick-arrow" aria-hidden="true">↗</span>
+        </a>
+      </section>
+
+      <div class="article-wrap">
+        <div class="article-topline">
+          <span class="path-root">~/pattern-atlas</span><span class="path-separator">/</span>
+          <span class="path-current" id="chapter-path">README.md</span>
+          <span class="path-status"><i></i> MARKDOWN</span>
+        </div>
+        <article class="prose" id="guide-content">
+          <h1 id="design-patterns-zero-to-hero">Design Patterns: Zero to Hero</h1>
+<h2 id="a-visual-guide-to-understanding-implementing-and-applying-software-design-patterns">A Visual Guide to Understanding, Implementing, and Applying Software Design Patterns</h2>
+<p><strong>A practical, example-driven learning guide</strong><br>
+<strong>Primary language:</strong> TypeScript<br>
+<strong>Audience:</strong> Developers who know basic programming and want to make better design decisions</p>
+<blockquote>
+<p><strong>Learning principle:</strong> Understand the recurring problem first; use an everyday analogy to make it concrete; then study the software design, implementation, trade-offs, and alternatives.</p>
+</blockquote>
+<hr>
+<h2 id="how-to-use-this-guide">How to use this guide</h2>
+<p>Read Parts I–IV in order the first time. After that, use the pattern catalog and comparison tables as a reference. For each pattern, try to explain the problem in your own words before looking at the code. Then implement the exercise without copying the example.</p>
+<p>Diagrams are Mermaid source. A Markdown viewer that supports Mermaid can render them; otherwise, the fenced blocks remain readable source, not embedded images. All examples are teaching examples, not claims about any particular production framework. Snippets focus on design, so application-specific I/O, persistence, and validation are sometimes omitted.</p>
+<h2 id="contents">Contents</h2>
+<ol>
+<li><a href="#learning-progression-and-central-analogy">Learning progression and central analogy</a></li>
+<li><a href="#part-i-foundations">Part I — Foundations</a>
+   - <a href="#1-what-design-patterns-are">1. What design patterns are</a>
+   - <a href="#2-object-oriented-design-from-zero">2. Object-oriented design from zero</a>
+   - <a href="#3-solid-principles">3. SOLID principles</a>
+   - <a href="#4-recognizing-design-problems">4. Recognizing design problems</a></li>
+<li><a href="#part-ii-creational-patterns">Part II — Creational patterns</a>
+   - <a href="#5-singleton">5. Singleton</a>
+   - <a href="#6-factory-method">6. Factory Method</a>
+   - <a href="#7-abstract-factory">7. Abstract Factory</a>
+   - <a href="#8-builder">8. Builder</a>
+   - <a href="#9-prototype">9. Prototype</a></li>
+<li><a href="#part-iii-structural-patterns">Part III — Structural patterns</a>
+   - <a href="#10-adapter">10. Adapter</a>
+   - <a href="#11-bridge">11. Bridge</a>
+   - <a href="#12-composite">12. Composite</a>
+   - <a href="#13-decorator">13. Decorator</a>
+   - <a href="#14-facade">14. Facade</a>
+   - <a href="#15-flyweight">15. Flyweight</a>
+   - <a href="#16-proxy">16. Proxy</a></li>
+<li><a href="#part-iv-behavioral-patterns">Part IV — Behavioral patterns</a>
+   - <a href="#17-chain-of-responsibility">17. Chain of Responsibility</a>
+   - <a href="#18-command">18. Command</a>
+   - <a href="#19-interpreter">19. Interpreter</a>
+   - <a href="#20-iterator">20. Iterator</a>
+   - <a href="#21-mediator">21. Mediator</a>
+   - <a href="#22-memento">22. Memento</a>
+   - <a href="#23-observer">23. Observer</a>
+   - <a href="#24-state">24. State</a>
+   - <a href="#25-strategy">25. Strategy</a>
+   - <a href="#26-template-method">26. Template Method</a>
+   - <a href="#27-visitor">27. Visitor</a>
+   - <a href="#28-related-patterns-and-architecture-techniques">28. Related patterns and architecture techniques</a></li>
+<li><a href="#part-v-comparing-similar-patterns">Part V — Comparing similar patterns</a></li>
+<li><a href="#part-vi-patterns-in-applications-and-refactoring">Part VI — Patterns in applications and refactoring</a></li>
+<li><a href="#part-vii-recognition-interviews-practice-and-roadmap">Part VII — Recognition, interviews, practice, and roadmap</a></li>
+<li><a href="#appendices">Appendices</a></li>
+</ol>
+<h2 id="learning-progression-and-central-analogy">Learning progression and central analogy</h2>
+<h3 id="progression">Progression</h3>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Learn</th>
+<th>Evidence of understanding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Foundations</td>
+<td>Objects, interfaces, composition, coupling, SOLID</td>
+<td>Explain why a change is difficult before naming a pattern</td>
+</tr>
+<tr>
+<td>2. Recognition</td>
+<td>Code smells and recurring design forces</td>
+<td>Offer more than one candidate solution</td>
+</tr>
+<tr>
+<td>3. Catalog</td>
+<td>Creational, structural, behavioral patterns</td>
+<td>Draw participants and trace a runtime call</td>
+</tr>
+<tr>
+<td>4. Judgment</td>
+<td>Similar patterns, costs, alternatives</td>
+<td>Explain why a pattern is not needed</td>
+</tr>
+<tr>
+<td>5. Application</td>
+<td>Refactoring, testing, enterprise examples</td>
+<td>Make one small behavior-preserving change at a time</td>
+</tr>
+<tr>
+<td>6. Mastery</td>
+<td>Practice, interviews, decision notes</td>
+<td>Defend a design with evidence and trade-offs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="restaurant-map">Restaurant map</h3>
+<p>The restaurant grows from one owner doing everything into a business with ordering channels, kitchen stations, payment options, notification subscribers, delivery partners, and configurable menus. The analogy helps identify forces, but it is not an exact model of software: restaurant employees are people, while software objects have explicit types, lifetimes, and call semantics.</p>
+<table>
+<thead>
+<tr>
+<th>Restaurant situation</th>
+<th>Candidate software concept</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Select cash, card, or wallet payment</td>
+<td>Strategy</td>
+</tr>
+<tr>
+<td>Create a kitchen ticket without exposing construction</td>
+<td>Factory Method</td>
+</tr>
+<tr>
+<td>Choose a compatible suite of equipment for each restaurant format</td>
+<td>Abstract Factory</td>
+</tr>
+<tr>
+<td>Assemble a customizable meal/order</td>
+<td>Builder</td>
+</tr>
+<tr>
+<td>Share a menu template by copying it</td>
+<td>Prototype</td>
+</tr>
+<tr>
+<td>Translate a delivery partner's API to the house contract</td>
+<td>Adapter</td>
+</tr>
+<tr>
+<td>Add optional toppings or fees around an order operation</td>
+<td>Decorator</td>
+</tr>
+<tr>
+<td>Give staff one entry point to a multi-step order process</td>
+<td>Facade</td>
+</tr>
+<tr>
+<td>Notify subscribed customers when status changes</td>
+<td>Observer</td>
+</tr>
+<tr>
+<td>Move an order through valid lifecycle stages</td>
+<td>State</td>
+</tr>
+<tr>
+<td>Let a request pass through approval checks</td>
+<td>Chain of Responsibility</td>
+</tr>
+<tr>
+<td>Store an action as a queueable ticket</td>
+<td>Command</td>
+</tr>
+<tr>
+<td>Share immutable menu-category data</td>
+<td>Flyweight</td>
+</tr>
+<tr>
+<td>Control or delay access to a remote kitchen service</td>
+<td>Proxy</td>
+</tr>
+<tr>
+<td>Coordinate stations that should not call each other directly</td>
+<td>Mediator</td>
+</tr>
+<tr>
+<td>Browse a menu without exposing its storage</td>
+<td>Iterator</td>
+</tr>
+<tr>
+<td>Save and restore an order draft</td>
+<td>Memento</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="part-i-foundations">Part I — Foundations</h1>
+<h2 id="1-what-design-patterns-are">1. What design patterns are</h2>
+<p>A <strong>design pattern</strong> is a named, reusable way to structure a solution to a recurring design problem in a particular context. It describes roles and relationships, not a finished program to paste in.</p>
+<p>Patterns exist because teams repeatedly encounter the same forces: changing requirements, external dependencies, object creation, collaboration, and complexity. A shared pattern name lets a team discuss a design efficiently. A pattern is useful only when its trade-offs fit the problem.</p>
+<pre><code class="language-mermaid">flowchart LR
+  P[Recurring problem and forces] --&gt; A[Candidate pattern]
+  A --&gt; I[Concrete implementation]
+  I --&gt; T[Trade-offs and tests]
+  T --&gt;|measure and learn| P
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Main concern</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Design pattern</td>
+<td>Collaboration and responsibility structure</td>
+<td>Strategy for interchangeable payment rules</td>
+</tr>
+<tr>
+<td>Algorithm</td>
+<td>Steps to compute a result</td>
+<td>Binary search</td>
+</tr>
+<tr>
+<td>Data structure</td>
+<td>How data is organized and accessed</td>
+<td>Hash map</td>
+</tr>
+<tr>
+<td>Architecture pattern</td>
+<td>Large-scale system organization</td>
+<td>Layered architecture</td>
+</tr>
+<tr>
+<td>Coding convention</td>
+<td>Consistent source-code style</td>
+<td>Naming methods in <code>camelCase</code></td>
+</tr>
+</tbody>
+</table>
+<p>The Gang of Four (Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides) published <em>Design Patterns: Elements of Reusable Object-Oriented Software</em> in 1994. Its 23 patterns became an influential catalog, not an exhaustive list of every useful design technique. Patterns are reusable design knowledge, not copy-and-paste code.</p>
+<p><strong>Benefits:</strong> common vocabulary, clearer responsibilities, known extension points, and a starting point for discussion.<br>
+<strong>Costs:</strong> more types, indirection, learning overhead, and sometimes slower debugging. Overengineering occurs when the abstraction costs more than the change it protects against.</p>
+<p><strong>Decision check:</strong> What is changing? What must remain stable? How often does the change happen? Could a function, conditional, or existing framework feature be simpler?</p>
+<h2 id="2-object-oriented-design-from-zero">2. Object-oriented design from zero</h2>
+<ul>
+<li><strong>Class:</strong> a type definition describing data and behavior. <code>class Order { total = 0; }</code></li>
+<li><strong>Object:</strong> a runtime instance of a class. <code>const lunch = new Order();</code></li>
+<li><strong>Property:</strong> data associated with an object. <strong>Method:</strong> behavior it provides.</li>
+<li><strong>Encapsulation:</strong> keep implementation details behind a small public interface.</li>
+<li><strong>Abstraction:</strong> represent the relevant behavior while hiding irrelevant detail.</li>
+<li><strong>Interface:</strong> a contract describing operations; it does not prescribe their implementation.</li>
+<li><strong>Abstract class:</strong> a partially implemented base class that may require subclasses to fill in behavior.</li>
+<li><strong>Inheritance:</strong> a subtype reuses or specializes a base type. It expresses an “is-a” relationship only when the subtype can safely stand in for the base.</li>
+<li><strong>Polymorphism:</strong> code can call a shared contract while different implementations respond differently.</li>
+<li><strong>Composition:</strong> build behavior by holding and collaborating with other objects.</li>
+<li><strong>Association:</strong> objects know or use one another. <strong>Aggregation:</strong> a whole refers to parts that may live independently. <strong>Composition:</strong> a whole owns parts whose lifecycle is tied to it. UML diamonds communicate intent; exact lifecycle meaning depends on the domain.</li>
+<li><strong>Coupling:</strong> how strongly one part depends on another. <strong>Cohesion:</strong> how closely a module's responsibilities belong together.</li>
+<li><strong>Dependency direction:</strong> which module knows about which other module. Designs are usually easier to change when stable business rules do not depend directly on volatile infrastructure.</li>
+</ul>
+<pre><code class="language-mermaid">classDiagram
+  class PaymentMethod {
+    &lt;&lt;interface&gt;&gt;
+    +pay(amount)
+  }
+  class CardPayment {
+    +pay(amount)
+  }
+  class WalletPayment {
+    +pay(amount)
+  }
+  PaymentMethod &lt;|.. CardPayment
+  PaymentMethod &lt;|.. WalletPayment
+</code></pre>
+<p>Both classes satisfy <code>PaymentMethod</code>; an order can use either without knowing its concrete type. Prefer composition when a class needs interchangeable behavior:</p>
+<pre><code class="language-mermaid">classDiagram
+  class OrderService
+  class PaymentMethod {
+    &lt;&lt;interface&gt;&gt;
+  }
+  class CardPayment
+  OrderService o--&gt; PaymentMethod : delegates to
+  PaymentMethod &lt;|.. CardPayment
+</code></pre>
+<p>Inheritance can lead to a class explosion when independent dimensions multiply (for example, three channels × four payment methods). Composition lets a channel hold a payment strategy instead. Do not reject inheritance categorically: stable “is-a” taxonomies and framework extension points may warrant it.</p>
+<h2 id="3-solid-principles">3. SOLID principles</h2>
+<p>SOLID is a set of design heuristics. It does not certify that a design is good; each principle requires judgment.</p>
+<h3 id="s-single-responsibility-principle">S — Single Responsibility Principle</h3>
+<p><strong>Plain English:</strong> a module should have one coherent reason to change. <strong>Technical view:</strong> group responsibilities that change together and separate those that change for unrelated stakeholders.</p>
+<p>Bad: <code>OrderManager</code> validates orders, writes database rows, charges cards, and formats emails. A tax-rule change could break persistence or notifications. Split policy, persistence, and delivery at meaningful boundaries; avoid creating a class for every line of code.</p>
+<h3 id="o-openclosed-principle">O — Open/Closed Principle</h3>
+<p><strong>Plain English:</strong> add a supported variation without repeatedly editing stable decision logic. <strong>Technical view:</strong> extension points should allow relevant behavior to vary while limiting changes to tested core code.</p>
+<p>Bad: a payment method <code>switch</code> grows whenever a provider is added. An interface with focused implementations may isolate variation. OCP does not mean “never modify existing code”; a new requirement can legitimately change a model.</p>
+<h3 id="l-liskov-substitution-principle">L — Liskov Substitution Principle</h3>
+<p><strong>Plain English:</strong> a subtype should honor the promises of its base type. <strong>Technical view:</strong> replacing a base instance with a subtype should not violate callers' expectations or invariants.</p>
+<p>If <code>PaymentMethod.pay</code> promises a completed or explicit failed result, a subtype must not silently return success without charging. Review preconditions, postconditions, invariants, and error semantics—not just method signatures.</p>
+<h3 id="i-interface-segregation-principle">I — Interface Segregation Principle</h3>
+<p><strong>Plain English:</strong> clients should not depend on operations they do not use. <strong>Technical view:</strong> split broad contracts into cohesive, client-specific contracts where this reduces unwanted coupling.</p>
+<p>Instead of <code>KitchenDevice</code> requiring <code>print</code>, <code>heat</code>, <code>scan</code>, and <code>dispense</code>, a label printer can implement only <code>print</code>. Avoid fragmenting interfaces into meaningless one-method types without a client need.</p>
+<h3 id="d-dependency-inversion-principle">D — Dependency Inversion Principle</h3>
+<p><strong>Plain English:</strong> business policy should not be hard-wired to a low-level vendor detail. <strong>Technical view:</strong> high- and low-level modules depend on abstractions; details implement contracts owned at an appropriate boundary.</p>
+<pre><code class="language-mermaid">flowchart LR
+  Service[OrderService: business policy] --&gt; Port[PaymentGateway interface]
+  Adapter[VendorPaymentAdapter: detail] -. implements .-&gt; Port
+  Adapter --&gt; Vendor[Vendor SDK]
+</code></pre>
+<p><strong>Dependency injection (DI)</strong> means supplying an object's collaborators rather than having it construct them internally. It is a technique for wiring dependencies, not itself a GoF pattern. DI improves replaceability and testing when used at real boundaries; a framework container is optional.</p>
+<table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Design question</th>
+<th>Possible supporting patterns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRP</td>
+<td>Do unrelated reasons to change share this module?</td>
+<td>Facade, Command, Repository</td>
+</tr>
+<tr>
+<td>OCP</td>
+<td>Is a likely variation isolated?</td>
+<td>Strategy, Decorator, Factory Method</td>
+</tr>
+<tr>
+<td>LSP</td>
+<td>Does every implementation preserve the contract?</td>
+<td>State, Strategy</td>
+</tr>
+<tr>
+<td>ISP</td>
+<td>Are clients forced to know unused operations?</td>
+<td>Small role interfaces</td>
+</tr>
+<tr>
+<td>DIP</td>
+<td>Do business rules depend directly on vendor details?</td>
+<td>Adapter, ports-and-adapters, DI</td>
+</tr>
+</tbody>
+</table>
+<p>No pattern guarantees SOLID compliance. A giant <code>Strategy</code> interface or <code>Facade</code> can violate the same principles it was meant to help.</p>
+<h2 id="4-recognizing-design-problems">4. Recognizing design problems</h2>
+<p>A <strong>code smell</strong> is a clue worth investigating, not automatic proof of a defect.</p>
+<table>
+<thead>
+<tr>
+<th>Observation</th>
+<th>Possible concern</th>
+<th>Candidates to evaluate</th>
+<th>Check before adopting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Large conditional selects algorithms</td>
+<td>Variation mixed with workflow</td>
+<td>Strategy, State</td>
+<td>Is there more than one real variant?</td>
+</tr>
+<tr>
+<td>Repeated object setup</td>
+<td>Creation rules scattered</td>
+<td>Factory, Builder</td>
+<td>Would a named function suffice?</td>
+</tr>
+<tr>
+<td>Many unrelated changes in one class</td>
+<td>Mixed responsibilities</td>
+<td>Facade + collaborators, SRP refactor</td>
+<td>Do the responsibilities actually change independently?</td>
+</tr>
+<tr>
+<td>Vendor-specific calls spread through code</td>
+<td>Tight external coupling</td>
+<td>Adapter</td>
+<td>Is the vendor interface stable and already adequate?</td>
+</tr>
+<tr>
+<td>Notification loops copied everywhere</td>
+<td>Subscriber lifecycle coupled to producer</td>
+<td>Observer / Pub-Sub</td>
+<td>Are subscriptions or independent consumers needed?</td>
+</tr>
+<tr>
+<td>Hard to test due to hidden globals</td>
+<td>Hidden dependency</td>
+<td>DI, explicit parameters</td>
+<td>Can a small function eliminate the global?</td>
+</tr>
+<tr>
+<td>Deep inheritance tree</td>
+<td>Fragile base-class coupling</td>
+<td>Composition, Bridge, Strategy</td>
+<td>Is the hierarchy stable and substitutable?</td>
+</tr>
+<tr>
+<td>Shared mutable global configuration</td>
+<td>Hidden state and test interference</td>
+<td>Explicit configuration, possibly Singleton</td>
+<td>Is shared identity truly required?</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-mermaid">flowchart LR
+  Smell[Observe a repeated design difficulty] --&gt; Cause[Identify the underlying force]
+  Cause --&gt; Options[Compare simple function, object, pattern, or architecture]
+  Options --&gt; Test[Refactor one behavior and add tests]
+  Test --&gt; Evidence[Keep only if the change is easier to understand or make]
+</code></pre>
+<h1 id="part-ii-creational-patterns">Part II — Creational patterns</h1>
+<p>Creational patterns separate the decision to create an object from the code that uses it. They are helpful when construction or product choice is a real source of change—not merely because <code>new</code> appears.</p>
+<h2 id="5-singleton">5. Singleton</h2>
+<p><strong>Category:</strong> Creational. <strong>Intent:</strong> ensure a type has one shared instance and provide access to it.<br>
+<strong>Restaurant analogy:</strong> one centrally managed configuration board. The analogy breaks down because software singleton state is process-scoped (not necessarily shared across machines) and can make dependencies invisible.</p>
+<pre><code class="language-mermaid">flowchart LR
+  A[OrderService] --&gt; S[Configuration.instance]
+  B[ReportService] --&gt; S
+  S --&gt; C[Shared configuration state]
+</code></pre>
+<pre><code class="language-ts">class AppConfig {
+  private static instance?: AppConfig;
+  private constructor(readonly currency = &quot;USD&quot;) {}
+  static getInstance(): AppConfig {
+    return (this.instance ??= new AppConfig());
+  }
+}
+</code></pre>
+<p>This is lazy initialization. In ordinary JavaScript execution, synchronous initialization is straightforward; multi-threaded runtimes and cross-process coordination need separate analysis. A module-level export is often a simpler singleton-like instance. A singleton does not mean “one per distributed system.”</p>
+<p><strong>Without it:</strong> each consumer can construct its own config, leading to inconsistent values if shared identity is required. <strong>Trade-offs:</strong> global access hides dependencies, complicates isolated tests, and carries mutable state across test cases. Prefer injecting an immutable <code>AppConfig</code> instance. Use a singleton only when one instance is a true domain/runtime constraint and its lifecycle is clear. <strong>Related:</strong> DI, Service Locator, Flyweight.</p>
+<h2 id="6-factory-method">6. Factory Method</h2>
+<p><strong>Category:</strong> Creational. <strong>Intent:</strong> let a creator's subclasses decide which product implementation to construct.<br>
+<strong>Restaurant analogy:</strong> each branch creates its local kitchen ticket according to its rules; the client asks for a ticket without depending on the concrete class.</p>
+<pre><code class="language-mermaid">classDiagram
+  class OrderCreator {
+    &lt;&lt;abstract&gt;&gt;
+    +createTicket()* Ticket
+    +submit()
+  }
+  class DineInCreator
+  class OnlineCreator
+  class Ticket {
+    &lt;&lt;interface&gt;&gt;
+  }
+  OrderCreator &lt;|-- DineInCreator
+  OrderCreator &lt;|-- OnlineCreator
+  OrderCreator ..&gt; Ticket
+</code></pre>
+<pre><code class="language-ts">interface Ticket { route(): string; }
+class CounterTicket implements Ticket { route() { return &quot;counter&quot;; } }
+class OnlineTicket implements Ticket { route() { return &quot;online&quot;; } }
+abstract class TicketCreator {
+  protected abstract createTicket(): Ticket;
+  submit(): string { return this.createTicket().route(); }
+}
+class CounterCreator extends TicketCreator {
+  protected createTicket(): Ticket { return new CounterTicket(); }
+}
+class OnlineCreator extends TicketCreator {
+  protected createTicket(): Ticket { return new OnlineTicket(); }
+}
+const submittedViaWeb = new OnlineCreator().submit();
+</code></pre>
+<p><strong>Without it:</strong> the workflow branches on channel and constructs concrete tickets. <strong>Improvement:</strong> creation varies behind an overridable method while submission remains shared. <strong>Costs:</strong> subclasses and inheritance; if there is only one construction site, a simple factory function may be clearer. Adding a product generally requires a creator implementation. <strong>Related:</strong> Simple Factory, Abstract Factory, Builder.</p>
+<h2 id="7-abstract-factory">7. Abstract Factory</h2>
+<p><strong>Category:</strong> Creational. <strong>Intent:</strong> create compatible families of related products without naming concrete classes.<br>
+<strong>Restaurant analogy:</strong> a kiosk-format branch gets compatible screen, receipt printer, and payment terminal products. This is most useful when products must vary together.</p>
+<pre><code class="language-mermaid">classDiagram
+  class RestaurantKitFactory {
+    &lt;&lt;interface&gt;&gt;
+    +createScreen()
+    +createTerminal()
+  }
+  class KioskFactory
+  class CounterFactory
+  class Screen
+  class Terminal
+  RestaurantKitFactory &lt;|.. KioskFactory
+  RestaurantKitFactory &lt;|.. CounterFactory
+  KioskFactory ..&gt; Screen
+  KioskFactory ..&gt; Terminal
+</code></pre>
+<pre><code class="language-ts">interface Screen { show(orderId: string): void; }
+interface Terminal { charge(amount: number): void; }
+class KioskScreen implements Screen { show(_orderId: string): void {} }
+class KioskTerminal implements Terminal { charge(_amount: number): void {} }
+interface RestaurantKitFactory {
+  createScreen(): Screen;
+  createTerminal(): Terminal;
+}
+class KioskFactory implements RestaurantKitFactory {
+  createScreen(): Screen { return new KioskScreen(); }
+  createTerminal(): Terminal { return new KioskTerminal(); }
+}
+</code></pre>
+<p>A client receives one factory and makes a consistent family. <strong>Without it:</strong> scattered conditionals can accidentally mix incompatible products. <strong>Trade-off:</strong> adding a new family is straightforward; adding a new product kind forces factory interfaces and implementations to change. <strong>Related:</strong> Factory Method (often used inside a factory), simple factory.</p>
+<h2 id="8-builder">8. Builder</h2>
+<p><strong>Category:</strong> Creational. <strong>Intent:</strong> construct a complex object step by step, separating construction from representation.<br>
+<strong>Restaurant analogy:</strong> customize a meal with required size and optional sides, toppings, and sauces.</p>
+<pre><code class="language-mermaid">flowchart LR
+  B[OrderBuilder] --&gt; R[Choose required size]
+  R --&gt; O[Add optional sides]
+  O --&gt; V[Validate]
+  V --&gt; O1[Built immutable Order]
+</code></pre>
+<pre><code class="language-ts">type Meal = Readonly&lt;{ size: &quot;small&quot; | &quot;large&quot;; sides: readonly string[]; sauce?: string }&gt;;
+class MealBuilder {
+  private size?: Meal[&quot;size&quot;];
+  private sides: string[] = [];
+  private sauce?: string;
+  withSize(size: Meal[&quot;size&quot;]): this { this.size = size; return this; }
+  addSide(side: string): this { this.sides.push(side); return this; }
+  withSauce(sauce: string): this { this.sauce = sauce; return this; }
+  build(): Meal {
+    if (!this.size) throw new Error(&quot;Meal size is required&quot;);
+    return Object.freeze({ size: this.size, sides: [...this.sides], sauce: this.sauce });
+  }
+}
+</code></pre>
+<p><strong>Without it:</strong> a long positional constructor is hard to read and easy to misuse. Builder names optional choices and validates at <code>build</code>. <strong>Trade-offs:</strong> extra code and mutable intermediate builder state. For a small object, an options object or constructor is simpler. <strong>Related:</strong> Factory (chooses a type), Prototype (copies a seed object).</p>
+<h2 id="9-prototype">9. Prototype</h2>
+<p><strong>Category:</strong> Creational. <strong>Intent:</strong> create a new object by copying a configured prototype.<br>
+<strong>Restaurant analogy:</strong> duplicate a menu template, then customize the copy.</p>
+<pre><code class="language-mermaid">flowchart LR
+  P[Configured template] --&gt;|clone| A[Copy A]
+  P --&gt;|clone| B[Copy B]
+  A --&gt;|customize| A1[Special menu]
+</code></pre>
+<pre><code class="language-ts">type MenuTemplate = { name: string; sections: string[] };
+const standard: MenuTemplate = { name: &quot;Standard&quot;, sections: [&quot;Lunch&quot;, &quot;Dinner&quot;] };
+const seasonal: MenuTemplate = { ...standard, sections: [...standard.sections], name: &quot;Seasonal&quot; };
+seasonal.sections.push(&quot;Autumn&quot;);
+</code></pre>
+<p>The object spread plus copied nested array is a deliberate <strong>deep-enough copy</strong> for this shape. A shallow spread alone would share <code>sections</code>; mutations would leak between copies. JavaScript has no universal deep clone semantics for arbitrary class instances, dates, resources, or functions. Define clone behavior explicitly. <strong>Use when:</strong> copying a configured object is cheaper or clearer than rebuilding it. <strong>Avoid:</strong> ambiguous ownership, hidden shared mutable data, or cloning objects with resources. <strong>Related:</strong> Builder.</p>
+<h1 id="part-iii-structural-patterns">Part III — Structural patterns</h1>
+<p>Structural patterns compose types and objects into useful larger structures.</p>
+<h2 id="10-adapter">10. Adapter</h2>
+<p><strong>Category:</strong> Structural. <strong>Intent:</strong> translate one interface into the interface a client expects.<br>
+<strong>Analogy:</strong> a travel plug adapter connects different plug shapes; it does not redesign the electrical appliance.</p>
+<pre><code class="language-mermaid">classDiagram
+  class PaymentPort {
+    &lt;&lt;interface&gt;&gt;
+    +charge(cents)
+  }
+  class VendorSdk {
+    +makePayment(amountInDollars)
+  }
+  class VendorAdapter
+  PaymentPort &lt;|.. VendorAdapter
+  VendorAdapter --&gt; VendorSdk
+</code></pre>
+<pre><code class="language-ts">interface PaymentPort { charge(cents: number): Promise&lt;void&gt;; }
+class VendorSdk { async makePayment(dollars: number): Promise&lt;void&gt; {} }
+class VendorAdapter implements PaymentPort {
+  constructor(private readonly sdk: VendorSdk) {}
+  charge(cents: number): Promise&lt;void&gt; {
+    if (!Number.isInteger(cents) || cents &lt; 0) throw new Error(&quot;Invalid cents&quot;);
+    return this.sdk.makePayment(cents / 100);
+  }
+}
+</code></pre>
+<p><strong>Without it:</strong> business code calls vendor-specific methods and units everywhere. The adapter centralizes translation and validation. <strong>Object Adapter</strong> wraps a collaborator (shown); <strong>Class Adapter</strong> uses inheritance where the language permits and it is appropriate. For third-party APIs, object composition is generally more flexible. <strong>Costs:</strong> another layer and potential semantic mismatch. <strong>Related:</strong> Facade simplifies a subsystem; Proxy controls access; Decorator adds behavior.</p>
+<h2 id="11-bridge">11. Bridge</h2>
+<p><strong>Category:</strong> Structural. <strong>Intent:</strong> separate an abstraction from its implementation so both can vary independently.<br>
+<strong>Analogy:</strong> restaurant ordering channels (web, counter) can pair with fulfillment modes (pickup, delivery). The channel is not a subtype of every possible pairing.</p>
+<pre><code class="language-mermaid">classDiagram
+  class OrderChannel
+  class Fulfillment {
+    &lt;&lt;interface&gt;&gt;
+    +fulfill(orderId)
+  }
+  class WebChannel
+  class CounterChannel
+  class Pickup
+  class Delivery
+  OrderChannel o--&gt; Fulfillment
+  OrderChannel &lt;|-- WebChannel
+  OrderChannel &lt;|-- CounterChannel
+  Fulfillment &lt;|.. Pickup
+  Fulfillment &lt;|.. Delivery
+</code></pre>
+<p>Composition yields 2 channel types + 2 fulfillment types instead of potentially 4 paired subclasses, and avoids multiplying further dimensions. <strong>Use when:</strong> both abstraction and implementation have meaningful independent variation. <strong>Avoid:</strong> a stable one-dimensional type where an interface is enough. <strong>Related:</strong> Adapter often joins interfaces after they exist; Bridge plans independent variation up front.</p>
+<pre><code class="language-ts">interface Fulfillment { fulfill(orderId: string): string; }
+class Pickup implements Fulfillment {
+  fulfill(orderId: string): string { return `Pickup ${orderId}`; }
+}
+class Delivery implements Fulfillment {
+  fulfill(orderId: string): string { return `Deliver ${orderId}`; }
+}
+class WebOrderChannel {
+  constructor(private readonly fulfillment: Fulfillment) {}
+  submit(id: string): string { return this.fulfillment.fulfill(id); }
+}
+const onlineDelivery = new WebOrderChannel(new Delivery());
+</code></pre>
+<h2 id="12-composite">12. Composite</h2>
+<p><strong>Category:</strong> Structural. <strong>Intent:</strong> treat individual objects and compositions of objects uniformly in a tree.<br>
+<strong>Analogy:</strong> a branch contains departments and employees; a branch-wide operation can recurse through its children.</p>
+<pre><code class="language-mermaid">classDiagram
+  class MenuNode {
+    &lt;&lt;interface&gt;&gt;
+    +print()
+  }
+  class Dish
+  class MenuSection {
+    +add(node)
+    +print()
+  }
+  MenuNode &lt;|.. Dish
+  MenuNode &lt;|.. MenuSection
+  MenuSection o--&gt; MenuNode : children
+</code></pre>
+<pre><code class="language-ts">interface MenuNode { print(): string; }
+class Dish implements MenuNode {
+  constructor(private readonly name: string) {}
+  print(): string { return this.name; }
+}
+class MenuSection implements MenuNode {
+  private children: MenuNode[] = [];
+  add(child: MenuNode): void { this.children.push(child); }
+  print(): string { return this.children.map(x =&gt; x.print()).join(&quot;\n&quot;); }
+}
+</code></pre>
+<p><strong>Without it:</strong> client code distinguishes leaves from groups at every call site. <strong>Trade-offs:</strong> uniform APIs may expose operations that make no sense for leaves; recursive cycles need guarding if permitted. <strong>Use for:</strong> trees, UI trees, nested permissions, and document nodes. <strong>Related:</strong> Decorator wraps one component to add behavior; Composite has many children.</p>
+<h2 id="13-decorator">13. Decorator</h2>
+<p><strong>Category:</strong> Structural. <strong>Intent:</strong> attach behavior to an individual object by wrapping it behind the same interface.<br>
+<strong>Analogy:</strong> add optional toppings and fees to a base meal. Each wrapper contributes behavior and delegates.</p>
+<pre><code class="language-mermaid">flowchart LR
+  C[Client] --&gt; D2[TaxDecorator]
+  D2 --&gt; D1[ExtraToppingDecorator]
+  D1 --&gt; B[BaseOrder]
+</code></pre>
+<pre><code class="language-ts">interface OrderPrice { total(): number; }
+class BaseOrder implements OrderPrice { total(): number { return 10; } }
+class Extra implements OrderPrice {
+  constructor(private readonly inner: OrderPrice, private readonly cost: number) {}
+  total(): number { return this.inner.total() + this.cost; }
+}
+const order: OrderPrice = new Extra(new BaseOrder(), 2);
+</code></pre>
+<p>Wrapper order matters when operations are not commutative (discount before/after tax). <strong>Without it:</strong> subclasses for every combination multiply rapidly. <strong>Trade-offs:</strong> runtime object stacks can complicate debugging and identity checks. <strong>Use when:</strong> optional combinations vary per instance. <strong>Related:</strong> Proxy shares a wrapper shape but controls access; it does not primarily add responsibilities.</p>
+<h2 id="14-facade">14. Facade</h2>
+<p><strong>Category:</strong> Structural. <strong>Intent:</strong> provide a simpler entry point to a complex subsystem.<br>
+<strong>Analogy:</strong> a restaurant manager coordinates ordering, kitchen, payment, and delivery so a customer-facing workflow has one clear call.</p>
+<pre><code class="language-mermaid">sequenceDiagram
+  participant C as Client
+  participant F as OrderFacade
+  participant P as Payment
+  participant K as Kitchen
+  C-&gt;&gt;F: place(order)
+  F-&gt;&gt;P: charge(order.total)
+  F-&gt;&gt;K: prepare(order)
+  F--&gt;&gt;C: confirmation
+</code></pre>
+<p><strong>Without it:</strong> every client duplicates subsystem sequencing. A facade centralizes a common workflow, but it should not become an all-knowing “god object.” Keep domain rules in their appropriate collaborators. <strong>Related:</strong> Adapter changes an interface; Mediator coordinates peer objects; Facade offers a simpler subsystem interface.</p>
+<pre><code class="language-ts">interface Payments { charge(orderId: string, total: number): Promise&lt;void&gt;; }
+interface Kitchen { prepare(orderId: string): Promise&lt;void&gt;; }
+class CheckoutFacade {
+  constructor(private readonly payments: Payments, private readonly kitchen: Kitchen) {}
+  async place(orderId: string, total: number): Promise&lt;void&gt; {
+    await this.payments.charge(orderId, total);
+    await this.kitchen.prepare(orderId);
+  }
+}
+</code></pre>
+<p>In production, define what happens if kitchen preparation fails after a successful charge; the facade does not make distributed side effects transactional.</p>
+<h2 id="15-flyweight">15. Flyweight</h2>
+<p><strong>Category:</strong> Structural. <strong>Intent:</strong> reduce memory by sharing common, preferably immutable state among many objects; pass unique state externally.<br>
+<strong>Analogy:</strong> menu entries can refer to shared immutable category descriptions rather than copying the same long description into every item.</p>
+<pre><code class="language-mermaid">flowchart LR
+  A[Menu item A: unique price/name] --&gt; F[Shared immutable category]
+  B[Menu item B: unique price/name] --&gt; F
+  C[Menu item C: unique price/name] --&gt; F
+</code></pre>
+<p>Separate <strong>intrinsic state</strong> (shared category label/style) from <strong>extrinsic state</strong> (item-specific price or quantity). Measure memory first; object pooling is not the same pattern and can add lifecycle complexity. Never mutate shared state as if it were per-instance. <strong>Use when:</strong> many objects duplicate expensive common data. <strong>Related:</strong> Singleton shares one identity; Flyweight shares reusable state across many logical objects.</p>
+<pre><code class="language-ts">type Category = Readonly&lt;{ label: string; color: string }&gt;;
+class CategoryFactory {
+  private readonly cache = new Map&lt;string, Category&gt;();
+  get(label: string, color: string): Category {
+    const key = `${label}:${color}`;
+    let value = this.cache.get(key);
+    if (!value) {
+      value = Object.freeze({ label, color });
+      this.cache.set(key, value);
+    }
+    return value;
+  }
+}
+type MenuEntry = { name: string; price: number; category: Category };
+</code></pre>
+<p><code>MenuEntry</code> owns unique values; entries with the same category share the immutable cached object. A real cache should define key normalization and lifecycle.</p>
+<h2 id="16-proxy">16. Proxy</h2>
+<p><strong>Category:</strong> Structural. <strong>Intent:</strong> provide a substitute that controls access to a real subject with the same contract.<br>
+<strong>Analogy:</strong> a booking desk checks access or availability before reaching the manager.</p>
+<pre><code class="language-mermaid">sequenceDiagram
+  participant C as Client
+  participant P as AccessProxy
+  participant R as RealService
+  C-&gt;&gt;P: getReceipt(id)
+  P-&gt;&gt;P: check permission
+  P-&gt;&gt;R: getReceipt(id)
+  R--&gt;&gt;C: receipt
+</code></pre>
+<p>Proxy varieties include <strong>virtual</strong> (lazy load), <strong>protection</strong> (authorization), <strong>remote</strong> (local stand-in for remote access), and <strong>caching</strong>. <strong>Costs:</strong> hidden latency, stale cache risk, and error/permission semantics. Do not treat a proxy as security by itself; authorization must be enforced at the trusted boundary. <strong>Distinguish:</strong> Adapter translates, Decorator adds behavior, Proxy controls access or lifecycle.</p>
+<pre><code class="language-ts">interface ReceiptService { getReceipt(id: string): Promise&lt;string&gt;; }
+class RealReceiptService implements ReceiptService {
+  async getReceipt(id: string): Promise&lt;string&gt; { return `receipt:${id}`; }
+}
+class AuthorizedReceiptProxy implements ReceiptService {
+  constructor(
+    private readonly real: ReceiptService,
+    private readonly canRead: (id: string) =&gt; boolean
+  ) {}
+  getReceipt(id: string): Promise&lt;string&gt; {
+    if (!this.canRead(id)) return Promise.reject(new Error(&quot;Forbidden&quot;));
+    return this.real.getReceipt(id);
+  }
+}
+</code></pre>
+<h1 id="part-iv-behavioral-patterns">Part IV — Behavioral patterns</h1>
+<p>Behavioral patterns organize communication and responsibility among objects.</p>
+<h2 id="17-chain-of-responsibility">17. Chain of Responsibility</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> pass a request along potential handlers until one handles it or the chain ends.<br>
+<strong>Analogy:</strong> a complaint passes from customer service to supervisor to manager.</p>
+<pre><code class="language-mermaid">flowchart LR
+  R[Request] --&gt; H1[Front desk]
+  H1 --&gt;|cannot handle| H2[Supervisor]
+  H2 --&gt;|cannot handle| H3[Manager]
+  H3 --&gt;|fallback| E[Explicit unhandled result]
+</code></pre>
+<pre><code class="language-ts">type Request = { amount: number };
+type Result = { approved: boolean; handledBy: string };
+interface Handler { setNext(next: Handler): Handler; handle(r: Request): Result | undefined; }
+</code></pre>
+<p>Handlers should define order, termination, and fallback explicitly; silently dropping a request is dangerous. <strong>Without it:</strong> conditionals in one coordinator grow. <strong>Use when:</strong> orderable checks can independently handle/pass a request (validation, approval, middleware). <strong>Trade-offs:</strong> tracing the final handler is harder. <strong>Related:</strong> Decorator always delegates through wrappers; a chain may stop when handled.</p>
+<pre><code class="language-ts">type Approval = { approved: boolean; handledBy: string };
+interface Approver { setNext(next: Approver): Approver; handle(amount: number): Approval; }
+abstract class BaseApprover implements Approver {
+  private next?: Approver;
+  setNext(next: Approver): Approver { this.next = next; return next; }
+  handle(amount: number): Approval {
+    if (this.canApprove(amount)) return { approved: true, handledBy: this.name };
+    if (this.next) return this.next.handle(amount);
+    return { approved: false, handledBy: &quot;unhandled&quot; };
+  }
+  protected abstract readonly name: string;
+  protected abstract canApprove(amount: number): boolean;
+}
+class Supervisor extends BaseApprover {
+  protected readonly name = &quot;supervisor&quot;;
+  protected canApprove(amount: number): boolean { return amount &lt;= 100; }
+}
+class Manager extends BaseApprover {
+  protected readonly name = &quot;manager&quot;;
+  protected canApprove(amount: number): boolean { return amount &lt;= 1000; }
+}
+const supervisor = new Supervisor();
+supervisor.setNext(new Manager());
+const result = supervisor.handle(500);
+</code></pre>
+<h2 id="18-command">18. Command</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> encapsulate a request/action as an object, separating the invoker from the receiver.<br>
+<strong>Analogy:</strong> an order ticket records a kitchen action that can be queued and executed later.</p>
+<pre><code class="language-mermaid">classDiagram
+  class Command {
+    &lt;&lt;interface&gt;&gt;
+    +execute()
+  }
+  class PrepareOrder
+  class Kitchen
+  class Queue
+  Command &lt;|.. PrepareOrder
+  PrepareOrder --&gt; Kitchen : receiver
+  Queue --&gt; Command : invokes
+</code></pre>
+<pre><code class="language-ts">interface Command { execute(): Promise&lt;void&gt;; }
+class PrepareOrder implements Command {
+  constructor(private readonly orderId: string, private readonly kitchen: Kitchen) {}
+  execute(): Promise&lt;void&gt; { return this.kitchen.prepare(this.orderId); }
+}
+class Kitchen { async prepare(_id: string): Promise&lt;void&gt; {} }
+</code></pre>
+<p><strong>Use for:</strong> queues, retries, audit, scheduling, undo/redo when inverse state is known. Undo is not automatic: command must retain enough state or provide a correct inverse, and external side effects may be irreversible. A <strong>command</strong> is an instruction; an <strong>event</strong> is a fact that something happened. <strong>Trade-offs:</strong> many command types and serialization/versioning concerns. A function may be simpler for a local callback.</p>
+<h2 id="19-interpreter">19. Interpreter</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> represent and evaluate sentences in a small grammar.<br>
+<strong>Analogy:</strong> interpret a tiny restaurant rule language such as “large AND vegetarian.”</p>
+<pre><code class="language-mermaid">flowchart TD
+  A[large AND vegetarian] --&gt; And[And expression]
+  And --&gt; L[Large expression]
+  And --&gt; V[Vegetarian expression]
+  L --&gt; Eval[Evaluate against menu item]
+  V --&gt; Eval
+</code></pre>
+<p>An expression interface might expose <code>interpret(context): boolean</code>; terminal expressions test a field, while nonterminal expressions combine child expressions. The AST (abstract syntax tree) is a tree representing the rule. For complex, user-authored, or untrusted grammars, use a real parser with explicit limits rather than growing ad-hoc <code>eval</code>-like logic. <strong>Related:</strong> Specification often expresses composable business predicates; a parser handles syntax before interpretation.</p>
+<pre><code class="language-ts">type MenuItem = { large: boolean; vegetarian: boolean };
+interface Rule { matches(item: MenuItem): boolean; }
+class Large implements Rule { matches(item: MenuItem): boolean { return item.large; } }
+class Vegetarian implements Rule { matches(item: MenuItem): boolean { return item.vegetarian; } }
+class And implements Rule {
+  constructor(private readonly left: Rule, private readonly right: Rule) {}
+  matches(item: MenuItem): boolean {
+    return this.left.matches(item) &amp;&amp; this.right.matches(item);
+  }
+}
+const special = new And(new Large(), new Vegetarian());
+</code></pre>
+<p>This evaluates a prebuilt expression tree; parsing text such as <code>"large AND vegetarian"</code> is a separate concern.</p>
+<h2 id="20-iterator">20. Iterator</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> traverse a collection without exposing its internal representation.<br>
+<strong>Analogy:</strong> browse a menu without knowing whether it is stored as a list, tree, or remote page.</p>
+<pre><code class="language-mermaid">sequenceDiagram
+  participant Client
+  participant I as Iterator
+  participant C as Collection
+  Client-&gt;&gt;I: next()
+  I-&gt;&gt;C: read next item
+  C--&gt;&gt;Client: item
+</code></pre>
+<p>TypeScript's iterable protocol (<code>[Symbol.iterator]</code>) and <code>for...of</code> already provide this pattern idiomatically. Different iterators can implement depth-first, filtered, or paginated traversal. Concurrent mutation can invalidate traversal or produce inconsistent results; define collection semantics. Streams/lazy pipelines compose transformations and may be single-use; an iterator is the traversal protocol underneath many such APIs.</p>
+<pre><code class="language-ts">class Menu {
+  constructor(private readonly dishes: readonly string[]) {}
+  *[Symbol.iterator](): Iterator&lt;string&gt; {
+    for (const dish of this.dishes) yield dish;
+  }
+}
+const lunch = new Menu([&quot;Soup&quot;, &quot;Salad&quot;]);
+for (const dish of lunch) console.log(dish);
+</code></pre>
+<h2 id="21-mediator">21. Mediator</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> centralize complex communication among peer objects to reduce direct many-to-many dependencies.<br>
+<strong>Analogy:</strong> a coordinator connects kitchen, delivery, payment, and customer-support teams.</p>
+<pre><code class="language-mermaid">flowchart LR
+  A[Kitchen] --&gt; M[OrderCoordinator]
+  B[Payment] --&gt; M
+  C[Delivery] --&gt; M
+  M --&gt; A
+  M --&gt; B
+  M --&gt; C
+</code></pre>
+<p>The mediator knows the collaboration rules; colleagues notify it rather than calling every peer. <strong>Benefit:</strong> fewer peer dependencies. <strong>Risk:</strong> all behavior can accumulate in a “god mediator.” Keep it cohesive and move domain policy to domain objects/services. <strong>Distinguish:</strong> Facade simplifies an interface for a client; Mediator coordinates peers; Observer broadcasts to subscribers.</p>
+<pre><code class="language-ts">interface OrderMediator { paymentCompleted(orderId: string): Promise&lt;void&gt;; }
+class KitchenStation {
+  constructor(private readonly mediator: OrderMediator) {}
+  paymentReceived(orderId: string): Promise&lt;void&gt; {
+    return this.mediator.paymentCompleted(orderId);
+  }
+}
+class OrderCoordinator implements OrderMediator {
+  constructor(private readonly prepare: (id: string) =&gt; Promise&lt;void&gt;) {}
+  paymentCompleted(orderId: string): Promise&lt;void&gt; { return this.prepare(orderId); }
+}
+</code></pre>
+<h2 id="22-memento">22. Memento</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> capture and restore an object's state without exposing its internals.<br>
+<strong>Analogy:</strong> save an order draft before editing, then restore a prior draft.</p>
+<pre><code class="language-mermaid">flowchart LR
+  O[Originator] --&gt;|save snapshot| M[Memento]
+  M --&gt; H[History / caretaker]
+  H --&gt;|restore snapshot| O
+</code></pre>
+<p>The originator creates a snapshot; a caretaker stores it and requests restoration. Snapshots can consume memory; immutable snapshots, bounded history, and compression may help. <strong>Memento</strong> stores state snapshots; <strong>event sourcing</strong> stores a sequence of domain facts and reconstructs state. They solve different persistence/history problems.</p>
+<pre><code class="language-ts">type DraftSnapshot = Readonly&lt;{ items: readonly string[]; note: string }&gt;;
+class OrderDraft {
+  private items: string[] = [];
+  private note = &quot;&quot;;
+  add(item: string): void { this.items.push(item); }
+  save(): DraftSnapshot {
+    return Object.freeze({ items: [...this.items], note: this.note });
+  }
+  restore(snapshot: DraftSnapshot): void {
+    this.items = [...snapshot.items];
+    this.note = snapshot.note;
+  }
+}
+const draft = new OrderDraft();
+draft.add(&quot;Soup&quot;);
+const saved = draft.save();
+draft.add(&quot;Cake&quot;);
+draft.restore(saved);
+</code></pre>
+<h2 id="23-observer">23. Observer</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> notify registered observers when a subject changes.<br>
+<strong>Analogy:</strong> subscribed customers receive order-status updates.</p>
+<pre><code class="language-mermaid">sequenceDiagram
+  participant O as Order
+  participant S as Subscribers
+  O-&gt;&gt;O: status = Ready
+  O--&gt;&gt;S: notify(OrderReady)
+  S--&gt;&gt;O: subscriber results (synchronous case)
+</code></pre>
+<pre><code class="language-ts">type Listener&lt;T&gt; = (value: T) =&gt; void;
+class OrderStatus {
+  private listeners = new Set&lt;Listener&lt;string&gt;&gt;();
+  subscribe(listener: Listener&lt;string&gt;): () =&gt; void {
+    this.listeners.add(listener);
+    return () =&gt; this.listeners.delete(listener);
+  }
+  publish(status: string): void {
+    for (const listener of this.listeners) listener(status);
+  }
+}
+</code></pre>
+<p>The returned cleanup function supports unsubscription. Production code must define listener error isolation, event ordering, async behavior, and ownership/lifecycle; forgotten subscriptions can retain objects. <strong>Push</strong> sends event data; <strong>pull</strong> sends a change signal and observers query state. In-process Observer usually has a direct subject; Pub/Sub commonly adds a broker and decouples publishers from subscribers. <strong>Do not silently swallow handler failures</strong>—choose and document error policy.</p>
+<h2 id="24-state">24. State</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> let an object's behavior vary with its internal state and make valid transitions explicit.<br>
+<strong>Analogy:</strong> an order moves from Created to Confirmed to Preparing to Ready to Delivered, or Cancelled.</p>
+<pre><code class="language-mermaid">stateDiagram-v2
+  [*] --&gt; Created
+  Created --&gt; Confirmed
+  Confirmed --&gt; Preparing
+  Preparing --&gt; Ready
+  Ready --&gt; Delivered
+  Created --&gt; Cancelled
+  Confirmed --&gt; Cancelled
+</code></pre>
+<p>For few states, an enum plus guarded transition function may be sufficient. With state-specific behavior, state objects can own transitions and actions. Reject invalid transitions explicitly; do not rely on an impossible-state assumption. Persisted state needs migration and concurrency rules. <strong>State vs Strategy:</strong> State represents lifecycle and may transition itself; Strategy is a selected algorithm, typically supplied by a caller/configuration. They can look structurally alike.</p>
+<pre><code class="language-ts">type OrderState = &quot;created&quot; | &quot;confirmed&quot; | &quot;preparing&quot; | &quot;ready&quot; | &quot;delivered&quot; | &quot;cancelled&quot;;
+const allowed: Record&lt;OrderState, readonly OrderState[]&gt; = {
+  created: [&quot;confirmed&quot;, &quot;cancelled&quot;],
+  confirmed: [&quot;preparing&quot;, &quot;cancelled&quot;],
+  preparing: [&quot;ready&quot;],
+  ready: [&quot;delivered&quot;],
+  delivered: [],
+  cancelled: []
+};
+class OrderLifecycle {
+  constructor(private current: OrderState = &quot;created&quot;) {}
+  transition(next: OrderState): void {
+    if (!allowed[this.current].includes(next)) {
+      throw new Error(`Invalid transition: ${this.current} -&gt; ${next}`);
+    }
+    this.current = next;
+  }
+  state(): OrderState { return this.current; }
+}
+</code></pre>
+<p>This uses an explicit transition table rather than state classes; choose state objects only when state-specific behavior justifies their added types.</p>
+<h2 id="25-strategy">25. Strategy</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> define interchangeable algorithms behind one contract and select one at runtime.<br>
+<strong>Analogy:</strong> choose cash, card, or wallet payment without rewriting the order workflow.</p>
+<pre><code class="language-mermaid">classDiagram
+  class Checkout
+  class PaymentStrategy {
+    &lt;&lt;interface&gt;&gt;
+    +pay(amount)
+  }
+  class CardPayment
+  class WalletPayment
+  Checkout o--&gt; PaymentStrategy
+  PaymentStrategy &lt;|.. CardPayment
+  PaymentStrategy &lt;|.. WalletPayment
+</code></pre>
+<pre><code class="language-ts">interface PaymentStrategy { pay(amount: number): Promise&lt;void&gt;; }
+class Checkout {
+  constructor(private readonly payment: PaymentStrategy) {}
+  async complete(total: number): Promise&lt;void&gt; { await this.payment.pay(total); }
+}
+</code></pre>
+<p>Each algorithm is independently testable. Select implementations with validated configuration, not arbitrary user-supplied class names. <strong>Without it:</strong> branching couples workflow to every method. <strong>Costs:</strong> extra types/wiring; a small stable conditional may be clearer. <strong>Related:</strong> State changes based on lifecycle; Template Method fixes a sequence and varies steps through inheritance.</p>
+<h2 id="26-template-method">26. Template Method</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> define an algorithm skeleton and let subclasses customize selected steps.<br>
+<strong>Analogy:</strong> every dish follows a standard preparation sequence, with dish-specific preparation.</p>
+<pre><code class="language-mermaid">flowchart LR
+  A[validate] --&gt; B[prepare ingredients: override]
+  B --&gt; C[cook: override]
+  C --&gt; D[plate]
+</code></pre>
+<p>An abstract base class may implement <code>prepare()</code> and call protected abstract steps <code>cook()</code> and <code>plate()</code>. This reuses the sequence but relies on inheritance and can make overrides fragile. <strong>Template Method vs Strategy:</strong> Template Method varies steps in a base-class algorithm; Strategy composes a replaceable collaborator. Prefer Strategy when runtime swapping and composition matter; use Template Method when the sequence itself is stable and subclassing is a natural extension point.</p>
+<pre><code class="language-ts">abstract class MealPreparation {
+  prepare(): string {
+    const ingredients = this.prepareIngredients();
+    const cooked = this.cook(ingredients);
+    return this.plate(cooked);
+  }
+  protected abstract prepareIngredients(): string;
+  protected abstract cook(ingredients: string): string;
+  protected plate(food: string): string { return `Serve: ${food}`; }
+}
+class SoupPreparation extends MealPreparation {
+  protected prepareIngredients(): string { return &quot;vegetables and stock&quot;; }
+  protected cook(ingredients: string): string { return `soup from ${ingredients}`; }
+}
+</code></pre>
+<h2 id="27-visitor">27. Visitor</h2>
+<p><strong>Category:</strong> Behavioral. <strong>Intent:</strong> add operations over a stable set of element types without placing each operation in every element class.<br>
+<strong>Analogy:</strong> apply pricing, nutrition, and export operations to menu items without mixing each operation into item storage.</p>
+<pre><code class="language-mermaid">classDiagram
+  class MenuItem {
+    &lt;&lt;interface&gt;&gt;
+    +accept(visitor)
+  }
+  class Dish
+  class Drink
+  class MenuVisitor {
+    &lt;&lt;interface&gt;&gt;
+    +visitDish(dish)
+    +visitDrink(drink)
+  }
+  MenuItem &lt;|.. Dish
+  MenuItem &lt;|.. Drink
+  Dish ..&gt; MenuVisitor
+  Drink ..&gt; MenuVisitor
+</code></pre>
+<p><code>accept(visitor)</code> calls the visitor's matching method; this is <strong>double dispatch</strong>: the operation depends on both element and visitor types. <strong>Good fit:</strong> element types are stable and new operations are frequent. <strong>Poor fit:</strong> element types change often, because every visitor must be updated; adding new variants may also require type switches in a visitor. Keep type safety and exhaustiveness visible. <strong>Related:</strong> Strategy varies one operation; Visitor adds operations across a set of types.</p>
+<pre><code class="language-ts">interface Visitor&lt;R&gt; {
+  visitDish(name: string, price: number): R;
+  visitDrink(name: string, price: number): R;
+}
+interface MenuElement { accept&lt;R&gt;(visitor: Visitor&lt;R&gt;): R; }
+class DishElement implements MenuElement {
+  constructor(readonly name: string, readonly price: number) {}
+  accept&lt;R&gt;(visitor: Visitor&lt;R&gt;): R { return visitor.visitDish(this.name, this.price); }
+}
+class PriceLabel implements Visitor&lt;string&gt; {
+  visitDish(name: string, price: number): string { return `${name}: $${price}`; }
+  visitDrink(name: string, price: number): string { return `${name}: $${price}`; }
+}
+const label = new DishElement(&quot;Soup&quot;, 8).accept(new PriceLabel());
+</code></pre>
+<p>An application with more element types would add the matching visitor method and each element's <code>accept</code> implementation.</p>
+<h2 id="28-related-patterns-and-architecture-techniques">28. Related patterns and architecture techniques</h2>
+<p>These are useful, but are <strong>not all GoF patterns</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Concept and classification</th>
+<th>Purpose</th>
+<th>Restaurant analogy</th>
+<th>Relationship / caution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Null Object — idiom/pattern</td>
+<td>Supply a harmless implementation instead of repeated null checks</td>
+<td>No-op notifier</td>
+<td>Only if “do nothing” is valid; don't hide missing required data</td>
+</tr>
+<tr>
+<td>Specification — domain design pattern</td>
+<td>Compose business predicates</td>
+<td>“Available AND vegetarian” filter</td>
+<td>Often represented with expressions; keep rules understandable</td>
+</tr>
+<tr>
+<td>Dependency Injection — technique</td>
+<td>Supply collaborators from outside</td>
+<td>Manager hands service its payment terminal</td>
+<td>Not the same as Service Locator; avoid unnecessary container complexity</td>
+</tr>
+<tr>
+<td>Repository — enterprise/domain pattern</td>
+<td>Collection-like boundary for domain persistence</td>
+<td>Retrieve and save orders through a store contract</td>
+<td>Keep query needs explicit; not every table needs a repository</td>
+</tr>
+<tr>
+<td>Unit of Work — enterprise pattern</td>
+<td>Track changes and commit them as a transaction</td>
+<td>Collect ticket changes for one checkout</td>
+<td>Transaction boundaries and database behavior matter</td>
+</tr>
+<tr>
+<td>Service Layer — application architecture pattern</td>
+<td>Coordinate application use cases</td>
+<td>“Place order” workflow endpoint</td>
+<td>Avoid making it a home for all domain rules</td>
+</tr>
+<tr>
+<td>Publish/Subscribe — messaging pattern</td>
+<td>Decouple producers/consumers through topics or broker</td>
+<td>Kitchen publishes status to independent subscriber groups</td>
+<td>Delivery, ordering, duplicates, and retries must be defined</td>
+</tr>
+<tr>
+<td>Event Sourcing — persistence architecture</td>
+<td>Store facts and derive current state</td>
+<td>Order history is the record, current status is a projection</td>
+<td>Adds schema evolution, replay, and operational complexity</td>
+</tr>
+<tr>
+<td>CQRS — architecture pattern</td>
+<td>Separate command and query models when justified</td>
+<td>Separate order submission from fast menu/status reads</td>
+<td>Not required for ordinary CRUD; consistency trade-offs</td>
+</tr>
+<tr>
+<td>DAO — data-access pattern</td>
+<td>Encapsulate persistence operations</td>
+<td>Database-specific order storage helper</td>
+<td>Often overlaps Repository; details depend on application style</td>
+</tr>
+</tbody>
+</table>
+<h1 id="part-v-comparing-similar-patterns">Part V — Comparing similar patterns</h1>
+<table>
+<thead>
+<tr>
+<th>Compare</th>
+<th>Different intent</th>
+<th>Everyday distinction</th>
+<th>Decision prompt; possible coexistence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Factory Method / Abstract Factory / Simple Factory</td>
+<td>Subclass chooses one product / factory creates compatible family / helper selects a product</td>
+<td>Branch ticket / branch equipment suite / ticket counter</td>
+<td>Is there a family? Is subclassing useful? A simple function is often enough</td>
+</tr>
+<tr>
+<td>Builder / Factory</td>
+<td>Stepwise assembly / choose and create a product</td>
+<td>Customize a meal / choose meal type</td>
+<td>A factory can return a builder</td>
+</tr>
+<tr>
+<td>Adapter / Facade</td>
+<td>Translate incompatible contract / simplify subsystem</td>
+<td>Plug converter / restaurant manager</td>
+<td>Adapter can be behind a facade</td>
+</tr>
+<tr>
+<td>Adapter / Proxy</td>
+<td>Translate interface / control access or lifecycle</td>
+<td>Translator / receptionist</td>
+<td>A remote proxy may also adapt transport details</td>
+</tr>
+<tr>
+<td>Decorator / Proxy</td>
+<td>Add per-instance responsibilities / control access to subject</td>
+<td>Add topping / check access</td>
+<td>Both wrap same contract; identify primary reason</td>
+</tr>
+<tr>
+<td>Decorator / inheritance</td>
+<td>Compose optional behavior / define subtype behavior</td>
+<td>Add-on layers / specialized dish type</td>
+<td>Prefer composition for arbitrary combinations; inheritance remains useful for stable substitutable types</td>
+</tr>
+<tr>
+<td>Bridge / Adapter</td>
+<td>Separate planned variation / reconcile existing mismatch</td>
+<td>Independent channels and delivery / plug converter</td>
+<td>An adapter can implement a Bridge's implementor</td>
+</tr>
+<tr>
+<td>Composite / Decorator</td>
+<td>Tree of children / one wrapped component</td>
+<td>Menu section / extra around one order</td>
+<td>Both may implement the same component contract</td>
+</tr>
+<tr>
+<td>Strategy / State</td>
+<td>Select algorithm / behavior and transitions depend on lifecycle</td>
+<td>Payment choice / order lifecycle</td>
+<td>Similar structure; distinguish what owns selection and transition</td>
+</tr>
+<tr>
+<td>Strategy / Template Method</td>
+<td>Compose algorithm / subclass customizes fixed skeleton</td>
+<td>Inject cooking policy / inherited kitchen recipe</td>
+<td>Can coexist, but avoid duplicating extension mechanisms</td>
+</tr>
+<tr>
+<td>Observer / Pub-Sub</td>
+<td>Direct subject subscription / broker-mediated topic delivery</td>
+<td>In-room bell / public announcement network</td>
+<td>Pub/Sub can implement distributed event delivery</td>
+</tr>
+<tr>
+<td>Mediator / Facade</td>
+<td>Coordinate peer collaboration / simplify subsystem to client</td>
+<td>Shift coordinator / reception desk</td>
+<td>A facade can delegate to a mediator</td>
+</tr>
+<tr>
+<td>Command / Strategy</td>
+<td>Encapsulate request / interchangeable algorithm</td>
+<td>Ticket to execute / payment policy</td>
+<td>Commands may contain strategies</td>
+</tr>
+<tr>
+<td>Command / Event</td>
+<td>Intent to act / fact that occurred</td>
+<td>“Prepare meal” / “Meal prepared”</td>
+<td>A command may result in one or more events</td>
+</tr>
+<tr>
+<td>Memento / Event Sourcing</td>
+<td>Snapshot internal state / durable sequence of facts</td>
+<td>Saved draft / transaction history</td>
+<td>Snapshots may optimize event-sourced replay; not equivalent</td>
+</tr>
+<tr>
+<td>Chain / Decorator</td>
+<td>Pass until handled / always wrap and delegate</td>
+<td>Escalation / layered add-ons</td>
+<td>Middleware chains may use both structures</td>
+</tr>
+<tr>
+<td>DI / Service Locator</td>
+<td>Dependencies passed in / dependencies looked up globally</td>
+<td>Equipment handed over / staff searches central cabinet</td>
+<td>DI exposes dependencies; locator hides them at call sites</td>
+</tr>
+<tr>
+<td>Repository / DAO</td>
+<td>Domain-oriented collection boundary / persistence-oriented operations</td>
+<td>Order store / database access desk</td>
+<td>Often overlap; choose names and semantics for the domain</td>
+</tr>
+<tr>
+<td>Null Object / Optional</td>
+<td>Valid no-op behavior / explicit absence in type</td>
+<td>Silent optional notifier / no contact method</td>
+<td>Null Object may implement an optional port; don't erase meaningful absence</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Code review questions:</strong> Does the abstraction isolate actual change? Can the contract be tested? Are failure semantics clear? Is a simpler function or data structure sufficient? Does the diagram match ownership and runtime behavior?</p>
+<h1 id="part-vi-patterns-in-applications-and-refactoring">Part VI — Patterns in applications and refactoring</h1>
+<h2 id="29-e-commerce-application">29. E-commerce application</h2>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Candidate</th>
+<th>Application and caution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payments and discounts</td>
+<td>Strategy</td>
+<td>Inject a policy; do not let discount code bypass money/rounding rules</td>
+</tr>
+<tr>
+<td>Create region-specific product families</td>
+<td>Abstract Factory</td>
+<td>Use when products vary as a compatible set</td>
+</tr>
+<tr>
+<td>Order submission</td>
+<td>Command + Service Layer</td>
+<td>Validate intent, execute use case, record explicit result</td>
+</tr>
+<tr>
+<td>Notifications</td>
+<td>Observer or Pub/Sub</td>
+<td>In-process vs distributed delivery is a major design boundary</td>
+</tr>
+<tr>
+<td>Shipping providers</td>
+<td>Adapter + Strategy</td>
+<td>Adapters normalize vendor APIs; strategy selects the provider</td>
+</tr>
+<tr>
+<td>Audit / undo</td>
+<td>Command / Memento</td>
+<td>Irreversible payment effects require compensation, not pretend rollback</td>
+</tr>
+</tbody>
+</table>
+<h2 id="30-food-delivery-application">30. Food-delivery application</h2>
+<p>Model order lifecycle with explicit states and valid transitions; use an adapter per delivery provider; use strategies for restaurant pricing rules; use observers or a broker for customer updates; use a builder only if order customization is genuinely complex. A facade may expose a single “place order” use case while keeping payment, kitchen, and delivery responsibilities separate.</p>
+<h2 id="31-document-editor">31. Document editor</h2>
+<p>Commands represent edits; history retains commands or mementos for undo; Composite represents nested documents; Observer updates UI views; Strategy selects export format. A command history should define memory limits and whether undo includes selection/cursor state.</p>
+<h2 id="32-logging-authentication-and-integrations">32. Logging, authentication, and integrations</h2>
+<ul>
+<li><strong>Logging:</strong> Decorators can add timing or structured context around a logger; avoid duplicate logs at every layer.</li>
+<li><strong>Authentication/authorization:</strong> a proxy or middleware can guard access, but enforce controls at trusted boundaries and fail closed.</li>
+<li><strong>External integrations:</strong> Adapter isolates vendor types, units, errors, and retry policy. Keep retries idempotent and avoid retrying non-repeatable operations blindly.</li>
+<li><strong>Request pipeline:</strong> Chain of Responsibility can compose validation, authentication, and routing; ordering and stop conditions must be explicit.</li>
+<li><strong>Provider selection:</strong> Strategy or factory selection may be driven by trusted configuration.</li>
+</ul>
+<h2 id="33-refactoring-a-poorly-designed-application">33. Refactoring a poorly designed application</h2>
+<p>Starting point:</p>
+<pre><code class="language-ts">class OrderManager {
+  async place(order: { payment: string; total: number; channel: string }): Promise&lt;void&gt; {
+    if (order.payment === &quot;card&quot;) { /* call card SDK */ }
+    else if (order.payment === &quot;wallet&quot;) { /* call wallet SDK */ }
+    else throw new Error(&quot;Unknown payment&quot;);
+    if (order.channel === &quot;online&quot;) { /* send email */ }
+    else { /* print receipt */ }
+    /* validate, persist, charge, notify, and format response here */
+  }
+}
+</code></pre>
+<p>This illustrative code mixes policy, vendor calls, channel-specific presentation, and persistence. Refactor with evidence, not a pattern checklist:</p>
+<ol>
+<li><strong>Characterize behavior:</strong> tests for valid payments, unsupported method, and each channel. Preserve current behavior before restructuring.</li>
+<li><strong>Name boundaries:</strong> define <code>PaymentPort</code> and <code>OrderRepository</code> contracts; isolate SDK translation in adapters. Verify amount units and error mapping.</li>
+<li><strong>Extract variation:</strong> use a payment strategy only if more methods or independent behavior are expected. Test each strategy against the contract.</li>
+<li><strong>Separate workflow:</strong> move one use case into <code>PlaceOrderService</code>; inject collaborators. Keep domain invariants in the domain model.</li>
+<li><strong>Isolate notification:</strong> add an observer/event boundary only if more than one independent subscriber or lifecycle exists.</li>
+<li><strong>Simplify creation:</strong> use a simple factory function or builder only if construction complexity warrants it.</li>
+</ol>
+<pre><code class="language-mermaid">flowchart LR
+  Before[One OrderManager: rules + SDK + DB + email + receipt] --&gt; Refactor[PlaceOrderService]
+  Refactor --&gt; Payment[PaymentPort / adapters]
+  Refactor --&gt; Repo[OrderRepository]
+  Refactor --&gt; Notify[Notifier]
+  Refactor --&gt; View[Receipt presenter]
+</code></pre>
+<p>At every step, compare outputs and side effects with characterization tests. Do not make a transaction appear atomic if an external payment has already occurred. <strong>Simpler can be better:</strong> one small function with explicit parameters beats a framework of factories for a stable, local rule.</p>
+<h1 id="part-vii-recognition-interviews-practice-and-roadmap">Part VII — Recognition, interviews, practice, and roadmap</h1>
+<h2 id="34-pattern-recognition">34. Pattern recognition</h2>
+<table>
+<thead>
+<tr>
+<th>Observed problem</th>
+<th>Likely concern</th>
+<th>Candidate</th>
+<th>Alternatives / caution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payment <code>switch</code> changes for every provider</td>
+<td>Algorithm variation coupled to checkout</td>
+<td>Strategy</td>
+<td>Small fixed set may remain a conditional</td>
+</tr>
+<tr>
+<td>New subscribers require editing producer</td>
+<td>Producer knows too much</td>
+<td>Observer / Pub-Sub</td>
+<td>Direct function callback may suffice</td>
+</tr>
+<tr>
+<td>Vendor model leaks into business layer</td>
+<td>Contract mismatch and coupling</td>
+<td>Adapter</td>
+<td>A thin translation function may be enough</td>
+</tr>
+<tr>
+<td>Optional feature combinations create subclasses</td>
+<td>Combinatorial inheritance</td>
+<td>Decorator</td>
+<td>Data/configuration may be simpler</td>
+</tr>
+<tr>
+<td>Multi-step workflow repeated by clients</td>
+<td>Orchestration duplication</td>
+<td>Facade / Service Layer</td>
+<td>Keep each workflow's policy explicit</td>
+</tr>
+<tr>
+<td>Object needs many named optional choices</td>
+<td>Construction complexity</td>
+<td>Builder</td>
+<td>Options object for simple data</td>
+</tr>
+<tr>
+<td>Behavior depends on lifecycle status</td>
+<td>Scattered transition checks</td>
+<td>State</td>
+<td>Enum and transition table can be enough</td>
+</tr>
+<tr>
+<td>Many handlers need an ordered chance</td>
+<td>Escalation/pipeline</td>
+<td>Chain</td>
+<td>Keep fallback and termination explicit</td>
+</tr>
+<tr>
+<td>One object has a tree of subobjects</td>
+<td>Recursive structure</td>
+<td>Composite</td>
+<td>Plain nested data may be enough</td>
+</tr>
+<tr>
+<td>Expensive common state is copied many times</td>
+<td>Memory duplication</td>
+<td>Flyweight</td>
+<td>Measure before optimizing</td>
+</tr>
+</tbody>
+</table>
+<h2 id="35-design-pattern-interview-guide">35. Design-pattern interview guide</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>What is assessed</th>
+<th>Strong answer / weak answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a pattern?</td>
+<td>Design judgment</td>
+<td>“A reusable structure for a recurring problem and forces, with trade-offs.” Weak: “A class template.”</td>
+</tr>
+<tr>
+<td>Strategy vs State?</td>
+<td>Intent, not shape</td>
+<td>Strategy selects an algorithm; State models lifecycle-dependent behavior and transitions. Weak: “They are identical.”</td>
+</tr>
+<tr>
+<td>When avoid Singleton?</td>
+<td>Dependency/testability</td>
+<td>Avoid hidden mutable global state; inject a shared immutable dependency where possible. Weak: “Singleton is always bad.”</td>
+</tr>
+<tr>
+<td>Adapter vs Facade?</td>
+<td>Structural intent</td>
+<td>Adapter translates a contract; Facade simplifies a subsystem. Weak: “Both are wrappers, so same thing.”</td>
+</tr>
+<tr>
+<td>How safely add a payment provider?</td>
+<td>Extensibility and failure behavior</td>
+<td>Define contract, adapter/strategy, contract tests, idempotency, errors, configuration. Weak: only add another branch.</td>
+</tr>
+<tr>
+<td>Does OCP prohibit edits?</td>
+<td>Nuance</td>
+<td>No; it guides likely variations, not all future changes. Weak: “Never modify working code.”</td>
+</tr>
+<tr>
+<td>What is DI?</td>
+<td>Dependency direction</td>
+<td>Supply dependencies from outside to make policy explicit/testable. Weak: “DI means using a container.”</td>
+</tr>
+<tr>
+<td>How implement undo?</td>
+<td>State/side-effect awareness</td>
+<td>Store reversible commands or snapshots; external effects may require compensation. Weak: “Call the opposite method.”</td>
+</tr>
+</tbody>
+</table>
+<p>For scenario answers, state assumptions, identify change pressure, sketch alternatives, name the simplest viable option, explain failure and tests, then discuss how evidence might change the choice.</p>
+<h2 id="36-practical-assignments-and-solution-sketches">36. Practical assignments and solution sketches</h2>
+<p>Difficulty: <strong>1 = introductory</strong>, <strong>2 = intermediate</strong>, <strong>3 = advanced</strong>. “Expected” is a design direction, not the only correct answer.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">#</th>
+<th style="text-align: center;">Level</th>
+<th>Exercise</th>
+<th>Hint / expected outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td>Refactor a payment conditional</td>
+<td>Strategy; test each payment implementation</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td>Add email and SMS notifications</td>
+<td>Observer or explicit notifier abstraction</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td>Add a delivery SDK with different method names</td>
+<td>Adapter</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td>Build a meal with optional extras</td>
+<td>Options object first; Builder if construction warrants</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td>Browse a menu stored as a tree</td>
+<td>Iterator / native iterable</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">2</td>
+<td>Add order states and reject invalid transitions</td>
+<td>State or guarded transition table</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">2</td>
+<td>Create compatible kiosk device families</td>
+<td>Abstract Factory</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">2</td>
+<td>Add optional pricing components</td>
+<td>Decorator; test ordering of fees</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td style="text-align: center;">2</td>
+<td>Queue kitchen actions</td>
+<td>Command; define retry/idempotency</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td>Implement undo for a text edit</td>
+<td>Command with stored prior value</td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td style="text-align: center;">2</td>
+<td>Simplify a multi-subsystem checkout</td>
+<td>Facade without moving domain rules</td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td>Represent nested menus</td>
+<td>Composite</td>
+</tr>
+<tr>
+<td style="text-align: right;">13</td>
+<td style="text-align: center;">2</td>
+<td>Add sequential validation handlers</td>
+<td>Chain with explicit failure result</td>
+</tr>
+<tr>
+<td style="text-align: right;">14</td>
+<td style="text-align: center;">2</td>
+<td>Save and restore an order draft</td>
+<td>Memento and bounded history</td>
+</tr>
+<tr>
+<td style="text-align: right;">15</td>
+<td style="text-align: center;">2</td>
+<td>Select export format</td>
+<td>Strategy; test format-specific output</td>
+</tr>
+<tr>
+<td style="text-align: right;">16</td>
+<td style="text-align: center;">3</td>
+<td>Build a tiny “large AND vegetarian” rule language</td>
+<td>Interpreter / AST, parser boundary</td>
+</tr>
+<tr>
+<td style="text-align: right;">17</td>
+<td style="text-align: center;">3</td>
+<td>Share repeated immutable menu metadata</td>
+<td>Flyweight only after measuring</td>
+</tr>
+<tr>
+<td style="text-align: right;">18</td>
+<td style="text-align: center;">3</td>
+<td>Protect and lazily load a remote report</td>
+<td>Proxy; define auth and cache semantics</td>
+</tr>
+<tr>
+<td style="text-align: right;">19</td>
+<td style="text-align: center;">3</td>
+<td>Separate ordering channel from fulfillment</td>
+<td>Bridge if both dimensions vary independently</td>
+</tr>
+<tr>
+<td style="text-align: right;">20</td>
+<td style="text-align: center;">3</td>
+<td>Refactor an order manager with DB, payment, and email</td>
+<td>Characterization tests, ports/adapters, small steps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="short-solution-sketches">Short solution sketches</h3>
+<ol>
+<li>Each payment strategy implements <code>pay(total)</code>; checkout receives it. Unsupported choices should fail during trusted configuration or produce a typed failure.</li>
+<li>Start with a <code>Notifier</code> interface and test double. If subscribers independently subscribe/unsubscribe, use Observer. If delivery crosses processes, evaluate a broker and delivery semantics.</li>
+<li>Translate units, identifiers, and vendor errors in one adapter. Add contract tests for boundary mapping.</li>
+<li>Prefer <code>createMeal({ size, sides, sauce })</code> for a simple value. Introduce a builder when staged validation or many conditional steps become meaningful.</li>
+<li>A recursive generator can hide storage traversal; specify ordering and mutation behavior.</li>
+<li>Keep an explicit transition table and test every allowed and rejected edge; state classes are optional until behavior differs materially.</li>
+<li>Factory creates each compatible product kind; test that the selected family is consistent.</li>
+<li>Wrap <code>OrderPrice</code> components; confirm rounding, discount, and tax order with business examples.</li>
+<li>A command captures receiver and request data; retries must be idempotent or deduplicated.</li>
+<li>Store old and new text plus range; test repeated undo/redo and boundaries.</li>
+<li>Facade coordinates a stable use case; collaborators still own their own policies.</li>
+<li>Composite nodes recursively implement an operation; guard against accidental cycles.</li>
+<li>Each handler returns handled/pass/error distinctly; the chain must have a documented fallback.</li>
+<li>Snapshot immutable state; cap history and avoid copying external handles.</li>
+<li>Inject <code>Exporter</code>; unknown formats should be an explicit error.</li>
+<li>Parse input into a safe AST; do not evaluate arbitrary code.</li>
+<li>Measure allocations; make shared intrinsic data immutable.</li>
+<li>Cache invalidation and authorization order are part of the design, not implementation details.</li>
+<li>Pair a channel abstraction with a fulfillment implementation; add Bridge only if both vary.</li>
+<li>Keep behavior-preserving tests and separate external integration failures from domain failures.</li>
+</ol>
+<h2 id="37-six-week-learning-roadmap">37. Six-week learning roadmap</h2>
+<table>
+<thead>
+<tr>
+<th>Week</th>
+<th>Focus and patterns</th>
+<th>Practice</th>
+<th>Weekly assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>OOP, composition, interfaces, coupling, SOLID</td>
+<td>Draw one existing class; identify reasons to change</td>
+<td>Explain composition vs inheritance with a real example</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Singleton, Factory Method, Abstract Factory, Builder, Prototype</td>
+<td>Implement meal construction and compatible device sets</td>
+<td>Compare factory choices without defaulting to a pattern</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy</td>
+<td>Integrate a fake vendor API; compose order options</td>
+<td>Identify intent for three superficially similar wrappers</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Chain, Command, Iterator, Mediator, Memento, Observer</td>
+<td>Build order notifications and undoable edits</td>
+<td>Trace request, event, and snapshot lifecycles</td>
+</tr>
+<tr>
+<td>5</td>
+<td>State, Strategy, Template Method, Visitor, related concepts</td>
+<td>Model order lifecycle and export</td>
+<td>Defend State vs Strategy and Visitor trade-offs</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Applications, refactoring, interviews</td>
+<td>Refactor one small codebase with tests</td>
+<td>Present problem, alternatives, evidence, and trade-offs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Spaced repetition:</strong> revisit notes after 1 day, 3 days, 1 week, and 2 weeks. Redraw a diagram from memory; retrieve the intention and “when not to use” before rereading.</p>
+<p><strong>Pattern decision notebook:</strong> for each real design decision, record (1) observed change/difficulty, (2) forces and constraints, (3) simplest options considered, (4) chosen design and why, (5) risks/tests, and (6) evidence to revisit the decision.</p>
+<h1 id="appendices">Appendices</h1>
+<h2 id="a-complete-pattern-catalog">A. Complete pattern catalog</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Pattern</th>
+<th>Primary intent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Creational</td>
+<td>Singleton</td>
+<td>One shared instance</td>
+</tr>
+<tr>
+<td>Creational</td>
+<td>Factory Method</td>
+<td>Subclass chooses product creation</td>
+</tr>
+<tr>
+<td>Creational</td>
+<td>Abstract Factory</td>
+<td>Create compatible product families</td>
+</tr>
+<tr>
+<td>Creational</td>
+<td>Builder</td>
+<td>Assemble complex object step by step</td>
+</tr>
+<tr>
+<td>Creational</td>
+<td>Prototype</td>
+<td>Create by copying a prototype</td>
+</tr>
+<tr>
+<td>Structural</td>
+<td>Adapter</td>
+<td>Translate an interface</td>
+</tr>
+<tr>
+<td>Structural</td>
+<td>Bridge</td>
+<td>Separate abstraction and implementation variation</td>
+</tr>
+<tr>
+<td>Structural</td>
+<td>Composite</td>
+<td>Treat tree parts and wholes uniformly</td>
+</tr>
+<tr>
+<td>Structural</td>
+<td>Decorator</td>
+<td>Add responsibilities by wrapping</td>
+</tr>
+<tr>
+<td>Structural</td>
+<td>Facade</td>
+<td>Simplify subsystem access</td>
+</tr>
+<tr>
+<td>Structural</td>
+<td>Flyweight</td>
+<td>Share common state to reduce duplication</td>
+</tr>
+<tr>
+<td>Structural</td>
+<td>Proxy</td>
+<td>Control access to a subject</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Chain of Responsibility</td>
+<td>Pass request through handlers</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Command</td>
+<td>Encapsulate a request as an object</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Interpreter</td>
+<td>Represent/evaluate a small grammar</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Iterator</td>
+<td>Traverse without exposing representation</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Mediator</td>
+<td>Centralize peer coordination</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Memento</td>
+<td>Capture and restore state</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Observer</td>
+<td>Notify subscribers of change</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>State</td>
+<td>Vary behavior by lifecycle state</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Strategy</td>
+<td>Interchange algorithms</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Template Method</td>
+<td>Fix algorithm skeleton, vary steps</td>
+</tr>
+<tr>
+<td>Behavioral</td>
+<td>Visitor</td>
+<td>Add operations over stable element types</td>
+</tr>
+</tbody>
+</table>
+<h2 id="b-solid-and-patterns">B. SOLID and patterns</h2>
+<p>Patterns provide mechanisms, not guarantees. Strategy can support OCP but a new strategy registry may still violate SRP. An Adapter can support DIP by translating a vendor API to a business-owned port, but a business layer that imports the vendor SDK elsewhere still has the same coupling. Evaluate the dependency graph and behavior, not the pattern label.</p>
+<h2 id="c-pattern-selection-cheat-sheet">C. Pattern-selection cheat sheet</h2>
+<pre><code class="language-mermaid">flowchart TD
+  Q{What is hard to change?}
+  Q --&gt;|Which algorithm| S[Strategy]
+  Q --&gt;|Object construction| C{One object or family?}
+  C --&gt;|One complex object| B[Builder]
+  C --&gt;|One product chosen by creator| F[Factory Method]
+  C --&gt;|Compatible family| AF[Abstract Factory]
+  Q --&gt;|Incompatible interface| A[Adapter]
+  Q --&gt;|Too many subsystem calls| FA[Facade]
+  Q --&gt;|Optional per-instance behavior| D[Decorator]
+  Q --&gt;|Access or lifecycle control| P[Proxy]
+  Q --&gt;|Lifecycle-dependent behavior| ST[State]
+  Q --&gt;|Subscribers need updates| O[Observer / Pub-Sub]
+  Q --&gt;|Undoable or queueable action| CMD[Command]
+  Q --&gt;|Tree of parts| COMP[Composite]
+</code></pre>
+<p>The diagram suggests candidates, not prescriptions. Validate the business force, alternatives, lifecycle, and tests before selecting one.</p>
+<h2 id="d-uml-reference">D. UML reference</h2>
+<table>
+<thead>
+<tr>
+<th>Notation</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A &lt;|-- B</code></td>
+<td>B inherits from A</td>
+</tr>
+<tr>
+<td><code>A &lt;|.. B</code></td>
+<td>B realizes/implements interface A</td>
+</tr>
+<tr>
+<td><code>A --&gt; B</code></td>
+<td>A depends on or navigates to B</td>
+</tr>
+<tr>
+<td><code>A o--&gt; B</code></td>
+<td>Aggregation-like whole/part relationship</td>
+</tr>
+<tr>
+<td><code>A *-- B</code></td>
+<td>Composition-like owned part</td>
+</tr>
+<tr>
+<td><code>A ..&gt; B</code></td>
+<td>Dependency</td>
+</tr>
+</tbody>
+</table>
+<p>Mermaid is an explanatory notation; it does not capture every UML constraint. Diagrams should agree with code about who owns an object, who calls whom, and which relationship is variable.</p>
+<h2 id="e-typescript-reference-notes">E. TypeScript reference notes</h2>
+<p>Use the TypeScript Handbook for language semantics. Prefer <code>readonly</code> for values that should not be mutated through a particular reference, but remember it does not deep-freeze nested runtime objects. Use <code>unknown</code> plus validation for untrusted input. Model expected failures explicitly when callers need to respond; throw exceptions for exceptional failures according to the project's conventions.</p>
+<h2 id="f-glossary">F. Glossary</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Plain-language definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Abstraction</td>
+<td>A model exposing the details relevant to a task</td>
+</tr>
+<tr>
+<td>Adapter</td>
+<td>Object translating one contract to another</td>
+</tr>
+<tr>
+<td>Cohesion</td>
+<td>How closely related a module's responsibilities are</td>
+</tr>
+<tr>
+<td>Command</td>
+<td>Object representing an instruction to perform</td>
+</tr>
+<tr>
+<td>Composition</td>
+<td>Building behavior by collaborating objects</td>
+</tr>
+<tr>
+<td>Coupling</td>
+<td>Degree of dependency between parts</td>
+</tr>
+<tr>
+<td>Dependency injection</td>
+<td>Supplying an object's collaborators externally</td>
+</tr>
+<tr>
+<td>Encapsulation</td>
+<td>Hiding internal representation behind a contract</td>
+</tr>
+<tr>
+<td>Event</td>
+<td>A fact that has occurred</td>
+</tr>
+<tr>
+<td>Factory</td>
+<td>A creation mechanism that hides product choice or construction</td>
+</tr>
+<tr>
+<td>Interface</td>
+<td>A contract of available operations</td>
+</tr>
+<tr>
+<td>Invariant</td>
+<td>A condition that must remain true for valid state</td>
+</tr>
+<tr>
+<td>Polymorphism</td>
+<td>Different implementations responding to one contract</td>
+</tr>
+<tr>
+<td>Proxy</td>
+<td>Substitute controlling access to a real subject</td>
+</tr>
+<tr>
+<td>Refactoring</td>
+<td>Changing internal structure while preserving observable behavior</td>
+</tr>
+<tr>
+<td>SOLID</td>
+<td>Five object-oriented design heuristics</td>
+</tr>
+<tr>
+<td>Strategy</td>
+<td>Interchangeable implementation of an algorithm</td>
+</tr>
+<tr>
+<td>Trade-off</td>
+<td>Benefit obtained at a cost or risk</td>
+</tr>
+</tbody>
+</table>
+<h2 id="g-reference-resources">G. Reference resources</h2>
+<ul>
+<li>Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides, <em>Design Patterns: Elements of Reusable Object-Oriented Software</em> (Addison-Wesley, 1994).</li>
+<li>Martin Fowler, <em>Patterns of Enterprise Application Architecture</em> (Addison-Wesley, 2002); <a href="https://martinfowler.com/eaaCatalog/">catalog and articles</a>.</li>
+<li>Robert C. Martin, <em>Agile Software Development: Principles, Patterns, and Practices</em> (Prentice Hall, 2002).</li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/intro.html">TypeScript Handbook</a>.</li>
+<li><a href="https://mermaid.js.org/intro/">Mermaid documentation</a>.</li>
+<li><a href="https://refactoring.guru/design-patterns">Refactoring.Guru design patterns</a> — a practical secondary reference; compare descriptions with the GoF text and language idioms.</li>
+</ul>
+<hr>
+<h2 id="final-self-check">Final self-check</h2>
+<ul>
+<li>Start with a problem and forces, not a pattern name.</li>
+<li>Explain the analogy and where it stops matching software.</li>
+<li>Draw participants and trace a runtime interaction.</li>
+<li>Check that code, contract, and diagram agree.</li>
+<li>Test boundary behavior, lifecycle, failure, and concurrency where relevant.</li>
+<li>Compare a simpler alternative.</li>
+<li>Measure performance claims instead of assuming a pattern improves speed.</li>
+<li>Revisit the decision when requirements or evidence change.</li>
+</ul>
+<p>The goal is not to maximize pattern usage. The goal is to make change safer and design intent clearer with the least complexity that fits the problem.</p>
+        </article>
+        <nav class="page-controls" id="page-controls" aria-label="Guide page navigation">
+          <button class="page-button previous-page" id="previous-page" type="button" aria-label="Previous chapter">
+            <span class="page-button-arrow" aria-hidden="true">←</span>
+            <span><small>PREVIOUS</small><strong id="previous-title">Overview</strong></span>
+          </button>
+          <span class="page-count" id="page-count" aria-live="polite"></span>
+          <button class="page-button next-page" id="next-page" type="button" aria-label="Next chapter">
+            <span><small>NEXT</small><strong id="next-title">First chapter</strong></span>
+            <span class="page-button-arrow" aria-hidden="true">→</span>
+          </button>
+        </nav>
+        <footer class="article-footer">
+          <div class="footer-mark" aria-hidden="true">✳</div>
+          <p><strong>Good design is a series of deliberate choices.</strong><br>Use the pattern that fits the problem—and be ready to explain why.</p>
+          <a href="#design-patterns-zero-to-hero" aria-label="Back to the overview">Back to overview ↑</a>
+        </footer>
+      </div>
+      <div class="page-bottom"><span class="status-pulse"></span> ALL SYSTEMS OPERATIONAL <span>·</span> LEARN THE WHY, NOT JUST THE NAME</div>
+    </main>
+  </div>
+</body>
+</html>
